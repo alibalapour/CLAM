@@ -185,8 +185,11 @@ def seg_and_patch(source, save_dir, patch_save_dir, mask_save_dir, stitch_save_d
 
 		seg_time_elapsed = -1
 		if seg:
-			WSI_object, seg_time_elapsed = segment(WSI_object, current_seg_params, current_filter_params) 
-
+			try:
+				WSI_object, seg_time_elapsed = segment(WSI_object, current_seg_params, current_filter_params) 
+			except:
+				print("slide id", slide, "cannot be segmented")
+				continue
 		if save_mask:
 			mask = WSI_object.visWSI(**current_vis_params)
 			mask_path = os.path.join(mask_save_dir, slide_id+'.jpg')
